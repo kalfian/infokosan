@@ -68,6 +68,7 @@
 
         <EditText
             android:id="@+id/password_edit"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/round_border"
@@ -86,7 +87,7 @@
             android:layout_height="24dp"
             android:padding="0dp"
             android:textAllCaps="false"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:layout_marginBottom="8dp"
             android:text="@string/lupa_kata_sandi" />
 
@@ -117,13 +118,14 @@
                 android:id="@+id/register_btn"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:textAlignment="textStart"
-                android:padding="0dp"
+                android:padding="5dp"
                 android:textColor="@color/kos_primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAllCaps="false"
                 android:text="@string/register_now" />
+
         </LinearLayout>
 
 
