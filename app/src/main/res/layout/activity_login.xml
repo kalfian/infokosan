@@ -85,8 +85,9 @@
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:padding="0dp"
+            android:textAllCaps="false"
             android:textSize="12dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/lupa_kata_sandi" />
 
         <Button
