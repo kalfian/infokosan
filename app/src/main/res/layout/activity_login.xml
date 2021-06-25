@@ -92,8 +92,10 @@
         <Button
             android:id="@+id/login_btn"
             android:padding="14dp"
+            android:background="@drawable/primary_background_rounded"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
-            android:drawableStart="@drawable/ic_baseline_lock_24"
             android:layout_height="wrap_content"
             android:text="@string/login_text" />
 
