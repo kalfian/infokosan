@@ -1,8 +1,9 @@
-package com.kalfian.infokosan
+package com.kalfian.infokosan.modules.auth
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
+import com.kalfian.infokosan.R
 import com.kalfian.infokosan.databinding.ActivityLoginBinding
 import www.sanju.motiontoast.MotionToast
 
@@ -24,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
                 MotionToast.TOAST_SUCCESS,
                 MotionToast.GRAVITY_BOTTOM,
                 MotionToast.LONG_DURATION,
-                ResourcesCompat.getFont(this,R.font.helvetica_regular)
+                ResourcesCompat.getFont(this, R.font.helvetica_regular)
             )
         }
 
