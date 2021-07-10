@@ -1,6 +1,5 @@
 package com.kalfian.infokosan.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,10 @@ import com.kalfian.infokosan.R
 import com.kalfian.infokosan.databinding.GridItemKosBinding
 import com.kalfian.infokosan.models.properties.Property
 import com.squareup.picasso.Picasso
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class GridPropertyAdapter: RecyclerView.Adapter<GridPropertyAdapter.ViewHolder>() {
@@ -23,6 +26,11 @@ class GridPropertyAdapter: RecyclerView.Adapter<GridPropertyAdapter.ViewHolder>(
             b.favoriteKos.isSelected = true
             b.addressKos.text = property.location.address
             b.titleKos.text = property.title
+
+            val localeID =  Locale("in", "ID")
+            val numberFormat = NumberFormat.getCurrencyInstance(localeID)
+            val formattedNumber: String = "IDR " + numberFormat.format(property.basicPrice).toString()
+            b.priceKos.text = formattedNumber
 
             Picasso.get()
                 .load(property.propertyImages[0].image)
