@@ -18,10 +18,21 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def midtransBaseUrl = properties.getProperty('midtransBaseUrl')
+    def midtransClientkey = properties.getProperty('midtransClientkey')
+
     buildTypes {
         release {
+            buildConfigField "String", "MidtransBaseUrl", midtransBaseUrl
+            buildConfigField "String", "MidtransClient", midtransClientkey
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "String", "MidtransBaseUrl", midtransBaseUrl
+            buildConfigField "String", "MidtransClient", midtransClientkey
         }
     }
     compileOptions {
@@ -52,6 +63,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.smarteist:autoimageslider:1.4.0'
+    implementation 'com.midtrans:uikit:1.28.0-SANDBOX'
 
 
     testImplementation 'junit:junit:4.+'

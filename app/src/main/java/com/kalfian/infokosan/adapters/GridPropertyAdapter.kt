@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kalfian.infokosan.R
 import com.kalfian.infokosan.databinding.GridItemKosBinding
 import com.kalfian.infokosan.models.properties.Property
+import com.kalfian.infokosan.utils.Midtrans
 import com.kalfian.infokosan.utils.listen
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
@@ -15,12 +16,14 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class GridPropertyAdapter: RecyclerView.Adapter<GridPropertyAdapter.ViewHolder>() {
+class GridPropertyAdapter(onClick: AdapterPropertyOnClickListener): RecyclerView.Adapter<GridPropertyAdapter.ViewHolder>() {
 
     private var list = ArrayList<Property>()
+    private var onClickAdapter = onClick
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val b = GridItemKosBinding.bind(itemView)
+    inner class ViewHolder(itemView: View, onClickListener: AdapterPropertyOnClickListener): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        private val b = GridItemKosBinding.bind(itemView)
+        private var clickListener: AdapterPropertyOnClickListener = onClickListener
 
         fun bind(property: Property) {
 
@@ -38,15 +41,18 @@ class GridPropertyAdapter: RecyclerView.Adapter<GridPropertyAdapter.ViewHolder>(
                 .placeholder(R.drawable.logo)
                 .into(b.imageKos)
 
+            itemView.setOnClickListener(this)
+
+        }
+
+        override fun onClick(v: View?) {
+            clickListener.onPropertyClickListener(list[adapterPosition])
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.grid_item_kos, parent, false)
-        return ViewHolder(v).listen{ pos, type ->
-            val item = list.get(pos)
-            Toast.makeText(v.context, item.title, Toast.LENGTH_LONG).show()
-        }
+        return ViewHolder(v, onClickAdapter)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -67,5 +73,8 @@ class GridPropertyAdapter: RecyclerView.Adapter<GridPropertyAdapter.ViewHolder>(
         notifyDataSetChanged()
     }
 
+    interface AdapterPropertyOnClickListener {
+        fun onPropertyClickListener(data: Property)
+    }
 
 }

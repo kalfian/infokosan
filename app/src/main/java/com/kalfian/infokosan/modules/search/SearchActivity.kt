@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.kalfian.infokosan.adapters.GridPropertyAdapter
 import com.kalfian.infokosan.databinding.ActivitySearchBinding
+import com.kalfian.infokosan.models.properties.Property
 import com.kalfian.infokosan.models.properties.PropertyResponse
 import com.kalfian.infokosan.utils.Constant
 import com.kalfian.infokosan.utils.RetrofitClient
@@ -20,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,GridPropertyAdapter.AdapterPropertyOnClickListener {
 
     private lateinit var b: ActivitySearchBinding
 
@@ -154,7 +155,7 @@ class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener
         b.listSearchProperty.setHasFixedSize(true)
         b.listSearchProperty.layoutManager = layoutManager
 
-        adapter = GridPropertyAdapter()
+        adapter = GridPropertyAdapter(this)
         b.listSearchProperty.adapter = adapter
 
     }
@@ -163,5 +164,9 @@ class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener
         adapter.clear()
         page = 1
         getPropertyKos(true, q)
+    }
+
+    override fun onPropertyClickListener(data: Property) {
+
     }
 }

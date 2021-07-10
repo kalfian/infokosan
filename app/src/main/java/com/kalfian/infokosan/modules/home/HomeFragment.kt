@@ -16,15 +16,21 @@ import com.kalfian.infokosan.R
 import com.kalfian.infokosan.databinding.FragmentHomeBinding
 import com.kalfian.infokosan.models.properties.PropertyResponse
 import com.kalfian.infokosan.adapters.GridPropertyAdapter
+import com.kalfian.infokosan.models.properties.Property
 import com.kalfian.infokosan.modules.search.SearchActivity
 import com.kalfian.infokosan.utils.Constant
+import com.kalfian.infokosan.utils.Midtrans
 import com.kalfian.infokosan.utils.RetrofitClient
 import com.kalfian.infokosan.utils.hideKeyboard
+import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback
+import com.midtrans.sdk.corekit.models.snap.TransactionResult
+import com.midtrans.sdk.uikit.SdkUIFlowBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefreshListener {
+class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefreshListener,
+    GridPropertyAdapter.AdapterPropertyOnClickListener, TransactionFinishedCallback {
 
     private lateinit var b: FragmentHomeBinding
 
@@ -154,7 +160,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefr
         b.listRecomendedKos.setHasFixedSize(true)
         b.listRecomendedKos.layoutManager = layoutManager
 
-        adapter = GridPropertyAdapter()
+        adapter = GridPropertyAdapter(this)
         b.listRecomendedKos.adapter = adapter
 
     }
@@ -163,6 +169,16 @@ class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefr
         adapter.clear()
         page = 1
         getRecomendationKos(true)
+    }
+
+    override fun onPropertyClickListener(data: Property) {
+//        var midtrans = context?.let { Midtrans(it, this) }
+//        midtrans?.initSdk()
+//        midtrans?.snapToken("3928102d-631e-4616-bc82-b0f1bd4b7c28")
+    }
+
+    override fun onTransactionFinished(p0: TransactionResult?) {
+
     }
 
 }
