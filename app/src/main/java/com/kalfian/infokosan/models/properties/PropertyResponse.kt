@@ -4,35 +4,35 @@ import com.google.gson.annotations.SerializedName
 
 data class PropertyResponse (
     @SerializedName("success")
-    val success: String,
+    var success: String,
 
     @SerializedName("data")
-    val data: DataProperties,
+    var data: DataProperties,
 )
 
 data class DataProperties (
     @SerializedName("data")
-    val data : ArrayList<Property>,
+    var data : ArrayList<Property>,
 
     @SerializedName("meta")
-    val meta : Meta
+    var meta : Meta
 )
 
 data class Meta (
     @SerializedName("current_page")
-    val current_page : Int,
+    var current_page : Int,
     @SerializedName("from")
-    val from : Int,
+    var from : Int,
     @SerializedName("last_page")
-    val last_page : Int,
+    var last_page : Int,
     @SerializedName("path")
-    val path : String,
+    var path : String,
     @SerializedName("per_page")
-    val per_page : Int,
+    var per_page : Int,
     @SerializedName("to")
-    val to : Int,
+    var to : Int,
     @SerializedName("total")
-    val total : Int
+    var total : Int
 )
 
 data class Property (
