@@ -13,4 +13,6 @@
     <string name="search_kos">Cari Kost</string>
     <string name="recommended_kos">Rekomendasi Kos</string>
     <string name="detail_property">Detail Kos</string>
+
+    <string name="mapbox_access_token">pk.eyJ1Ijoia3VrdWhhbGYiLCJhIjoiY2txejg0dXRiMWZ0MjJvbzhwNzdsNXpuaCJ9.JVKrSO2Q-3bySWU7reFSiw</string>
 </resources>

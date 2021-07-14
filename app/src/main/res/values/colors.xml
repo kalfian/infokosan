@@ -11,5 +11,6 @@
     <color name="kos_primary">#2339D6</color>
     <color name="kos_gray">#A2AAB4</color>
     <color name="kos_red">#D6232E</color>
+    <color name="kos_gray_light">#E9EBFB</color>
 
 </resources>
