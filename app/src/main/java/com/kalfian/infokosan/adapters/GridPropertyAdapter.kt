@@ -3,6 +3,7 @@ package com.kalfian.infokosan.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.kalfian.infokosan.R
@@ -21,13 +22,13 @@ class GridPropertyAdapter(onClick: AdapterPropertyOnClickListener): RecyclerView
     private var list = ArrayList<Property>()
     private var onClickAdapter = onClick
 
-    inner class ViewHolder(itemView: View, onClickListener: AdapterPropertyOnClickListener): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ViewHolder(itemView: View, onClickListener: AdapterPropertyOnClickListener): RecyclerView.ViewHolder(itemView) {
         private val b = GridItemKosBinding.bind(itemView)
         private var clickListener: AdapterPropertyOnClickListener = onClickListener
 
         fun bind(property: Property) {
 
-            b.favoriteKos.isSelected = true
+            b.favoriteKos.isChecked = property.isFavorite
             b.addressKos.text = property.location.address
             b.titleKos.text = property.title
 
@@ -43,12 +44,16 @@ class GridPropertyAdapter(onClick: AdapterPropertyOnClickListener): RecyclerView
                 .placeholder(R.drawable.logo)
                 .into(b.imageKos)
 
-            itemView.setOnClickListener(this)
+            itemView.setOnClickListener {
+                clickListener.onPropertyClickListener(list[adapterPosition])
+            }
 
-        }
+            b.favoriteKos.setOnClickListener {
+                clickListener.onFavoriteClickListener(b.favoriteKos, list[adapterPosition])
+            }
 
-        override fun onClick(v: View?) {
-            clickListener.onPropertyClickListener(list[adapterPosition])
+
+
         }
     }
 
@@ -77,6 +82,7 @@ class GridPropertyAdapter(onClick: AdapterPropertyOnClickListener): RecyclerView
 
     interface AdapterPropertyOnClickListener {
         fun onPropertyClickListener(data: Property)
+        fun onFavoriteClickListener(ch: CheckBox, data: Property)
     }
 
 }

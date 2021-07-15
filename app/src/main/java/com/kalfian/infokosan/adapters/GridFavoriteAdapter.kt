@@ -18,13 +18,13 @@ class GridFavoriteAdapter(onClick: AdapterFavoriteOnClickListener): RecyclerView
     private var list = ArrayList<Favorite>()
     private var onClickAdapter = onClick
 
-    inner class ViewHolder(itemView: View, onClickListener: AdapterFavoriteOnClickListener): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ViewHolder(itemView: View, onClickListener: AdapterFavoriteOnClickListener): RecyclerView.ViewHolder(itemView) {
         private val b = GridItemKosBinding.bind(itemView)
         private var clickListener: AdapterFavoriteOnClickListener = onClickListener
 
         fun bind(fav: Favorite) {
 
-            b.favoriteKos.isSelected = true
+            b.favoriteKos.isChecked = true
             b.addressKos.text = fav.alamat
             b.titleKos.text = fav.title
 
@@ -40,13 +40,15 @@ class GridFavoriteAdapter(onClick: AdapterFavoriteOnClickListener): RecyclerView
                 .placeholder(R.drawable.logo)
                 .into(b.imageKos)
 
-            itemView.setOnClickListener(this)
+            itemView.setOnClickListener {
+                clickListener.onFavoriteClickListener(list[adapterPosition])
+            }
+            b.favoriteKos.setOnClickListener {
+                clickListener.onDeleteFavoriteListener(list[adapterPosition])
+            }
 
         }
 
-        override fun onClick(v: View?) {
-            clickListener.onFavoriteClickListener(list[adapterPosition])
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -62,7 +64,7 @@ class GridFavoriteAdapter(onClick: AdapterFavoriteOnClickListener): RecyclerView
         return list.size
     }
 
-    fun addList(items: ArrayList<Favorite>) {
+    fun addList(items: List<Favorite>) {
         list.addAll(items)
         notifyDataSetChanged()
     }
@@ -74,6 +76,7 @@ class GridFavoriteAdapter(onClick: AdapterFavoriteOnClickListener): RecyclerView
 
     interface AdapterFavoriteOnClickListener {
         fun onFavoriteClickListener(data: Favorite)
+        fun onDeleteFavoriteListener(data: Favorite)
     }
 
 }
