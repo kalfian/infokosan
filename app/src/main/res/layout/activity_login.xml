@@ -58,6 +58,7 @@
             android:layout_marginBottom="16dp"
             android:padding="16dp"
             android:hint="@string/email" />
+
         <TextView
             android:id="@+id/password_text"
             android:layout_width="match_parent"
@@ -78,6 +79,7 @@
             android:ems="10"
             android:padding="16dp"
             android:hint="@string/password" />
+
 
         <Button
             android:id="@+id/forgot_btn"

@@ -2,6 +2,7 @@
     <string name="app_name">Info Kosan</string>
     <string name="app_logo">App Logo</string>
     <string name="login">Login</string>
+    <string name="register">Register</string>
     <string name="email">Alamat Email</string>
     <string name="password">Kata Sandi</string>
     <string name="lupa_kata_sandi">Lupa kata Sandi?</string>
@@ -13,6 +14,16 @@
     <string name="search_kos">Cari Kost</string>
     <string name="recommended_kos">Rekomendasi Kos</string>
     <string name="detail_property">Detail Kos</string>
+
+    <!-- strings register-->
+    <string name="name">Nama</string>
+    <string name="gender">Jenis Kelamin</string>
+    <string name="male">Laki - Laki</string>
+    <string name="female">Perempuan</string>
+    <string name="phone">No. Telepon</string>
+    <string name="id_number">No KTP</string>
+    <string name="address">Alamat</string>
+
 
     <string name="mapbox_access_token">pk.eyJ1Ijoia3VrdWhhbGYiLCJhIjoiY2txejg0dXRiMWZ0MjJvbzhwNzdsNXpuaCJ9.JVKrSO2Q-3bySWU7reFSiw</string>
 </resources>

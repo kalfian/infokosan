@@ -25,6 +25,8 @@ import com.kalfian.infokosan.modules.home.HomeActivity
 import com.kalfian.infokosan.utils.Constant
 import www.sanju.motiontoast.MotionToast
 
+private const val NAME = "AComputerEngineer"
+private const val MODE = Context.MODE_PRIVATE
 class LoginActivity : AppCompatActivity() {
     // Like the XML name activity_login to ActivityLoginBinding
     private lateinit var b: ActivityLoginBinding
@@ -47,6 +49,7 @@ class LoginActivity : AppCompatActivity() {
         var txtEmail: EditText = findViewById(R.id.email_edit)
         var txtPassword: EditText = findViewById(R.id.password_edit)
 
+        sharedPref = this.getSharedPreferences(NAME, MODE)
         b.loginBtn.setOnClickListener {
             email = txtEmail.text.toString();
             password = txtPassword.text.toString();
@@ -64,10 +67,10 @@ class LoginActivity : AppCompatActivity() {
         params["password"] = password.toString().trim()
 
         RetrofitClient.instance.postAuth(parameters = params).enqueue(object:
-                Callback<AuthResponse> {
+            Callback<AuthResponse> {
             override fun onResponse(
-                    call: Call<AuthResponse>,
-                    response: Response<AuthResponse>
+                call: Call<AuthResponse>,
+                response: Response<AuthResponse>
             ) {
 
                 val responses = response.body()?.data
@@ -77,26 +80,25 @@ class LoginActivity : AppCompatActivity() {
                 if (responses != null) {
                     val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                     MotionToast.createColorToast(this@LoginActivity,"Login Berhasil!",
-                            "Selamat Datang ${responses.user.name} !",
-                            MotionToast.TOAST_SUCCESS,
-                            MotionToast.GRAVITY_BOTTOM,
-                            MotionToast.LONG_DURATION,
-                            ResourcesCompat.getFont(this@LoginActivity, R.font.helvetica_regular)
+                        "Selamat Datang ${responses.user.name} !",
+                        MotionToast.TOAST_SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this@LoginActivity, R.font.helvetica_regular)
                     )
                     setPref(responses.user.id, responses.user.email, responses.token)
                     startActivity(intent)
                     finish()
                 } else {
                     MotionToast.createColorToast(this@LoginActivity,"Login Gagal!",
-                            "Kredensial Salah !",
-                            MotionToast.TOAST_ERROR,
-                            MotionToast.GRAVITY_BOTTOM,
-                            MotionToast.LONG_DURATION,
-                            ResourcesCompat.getFont(this@LoginActivity, R.font.helvetica_regular)
+                        "Kredensial Salah !",
+                        MotionToast.TOAST_ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this@LoginActivity, R.font.helvetica_regular)
                     )
                 }
 
-                Log.i("asu", responses.toString())
                 isLoad = false
                 b.progressBar.visibility = View.GONE
             }
