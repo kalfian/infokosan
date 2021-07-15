@@ -24,8 +24,7 @@ import com.kalfian.infokosan.modules.register.RegisterActivity
 import com.kalfian.infokosan.utils.Constant
 import www.sanju.motiontoast.MotionToast
 
-private const val NAME = "AComputerEngineer"
-private const val MODE = Context.MODE_PRIVATE
+
 class LoginActivity : AppCompatActivity() {
     // Like the XML name activity_login to ActivityLoginBinding
     private lateinit var b: ActivityLoginBinding
@@ -43,7 +42,8 @@ class LoginActivity : AppCompatActivity() {
         val v = b.root
         setContentView(v)
 
-        sharedPref = this.getSharedPreferences(NAME, MODE)
+        sharedPref = this.getSharedPreferences(Constant.PREF_CONF_NAME, Constant.PREF_CONF_MODE)
+
         b.loginBtn.setOnClickListener {
             email = b.emailEdit.text.toString()
             password = b.passwordEdit.text.toString()
@@ -116,6 +116,6 @@ class LoginActivity : AppCompatActivity() {
         editor.putInt(Constant.PREF_ID, id)
         editor.putString(Constant.PREF_EMAIL, email)
         editor.putString(Constant.PREF_TOKEN, token)
-        editor.apply()
+        editor.commit()
     }
 }

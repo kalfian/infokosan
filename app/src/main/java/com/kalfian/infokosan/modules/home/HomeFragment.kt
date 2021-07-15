@@ -1,6 +1,7 @@
 package com.kalfian.infokosan.modules.home
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -43,6 +44,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefr
     private var totalPage = 10
     private var isLoad = false
 
+    lateinit var sharedPref : SharedPreferences
+
     // DAO
     private lateinit var database: FavoriteDB
     private lateinit var dao: FavoriteDao
@@ -63,6 +66,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefr
 
         layoutManager = GridLayoutManager(context, 2)
         b.swipeRefreshRekomendasi.setOnRefreshListener(this)
+
+        sharedPref = this.requireActivity().getSharedPreferences(Constant.PREF_CONF_NAME, Constant.PREF_CONF_MODE)
 
         setupRecycleView()
         getRecomendationKos(false)
