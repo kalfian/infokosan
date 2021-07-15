@@ -8,18 +8,18 @@ import com.kalfian.infokosan.models.favorite.Favorite
 
 //Database annotation to specify the entities and set version
 @Database(entities = [Favorite::class], version = 1, exportSchema = false)
-abstract class FavoriteRoomDatabase : RoomDatabase() {
+abstract class FavoriteDB : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: FavoriteRoomDatabase? = null
+        private var INSTANCE: FavoriteDB? = null
 
-        fun getDatabase(context: Context): FavoriteRoomDatabase {
+        fun getDatabase(context: Context): FavoriteDB {
             return INSTANCE ?: synchronized(this) {
                 // Create database here
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    FavoriteRoomDatabase::class.java,
+                    FavoriteDB::class.java,
                     "favorite_db"
                 )
                     .allowMainThreadQueries() //allows Room to executing task in main thread

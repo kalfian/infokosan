@@ -1,60 +1,96 @@
 package com.kalfian.infokosan.modules.favorite
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.kalfian.infokosan.R
+import com.kalfian.infokosan.adapters.GridFavoriteAdapter
+import com.kalfian.infokosan.databinding.FragmentFavoriteBinding
+import com.kalfian.infokosan.models.favorite.Favorite
+import com.kalfian.infokosan.modules.property.DetailPropertyActivity
+import com.kalfian.infokosan.utils.Constant
+import com.kalfian.infokosan.utils.db.FavoriteDB
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class FavoriteFragment : Fragment(R.layout.fragment_favorite), SwipeRefreshLayout.OnRefreshListener,
+    GridFavoriteAdapter.AdapterFavoriteOnClickListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FavoriteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FavoriteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var b: FragmentFavoriteBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var adapter: GridFavoriteAdapter
+    private lateinit var layoutManager: GridLayoutManager
+    private var isLoad = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite, container, false)
+        b = FragmentFavoriteBinding.inflate(inflater, container, false)
+        return b.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavoriteFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoriteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        layoutManager = GridLayoutManager(context, 2)
+        b.swipeRefresh.setOnRefreshListener(this)
+
+        setupRecycleView()
+        getFavKos(false)
+    }
+
+    private fun getFavKos(isOnRefresh: Boolean) {
+        isLoad = true
+
+        if (!isOnRefresh) {
+            b.progressBar.visibility = View.VISIBLE
+        }
+
+        val database = context?.let { FavoriteDB.getDatabase(it) }
+        val dao = database?.getFavoriteDao()
+        val listItems: ArrayList<Favorite>? = null
+        dao?.getAll()?.let { listItems?.addAll(it) }
+
+        if (listItems != null) {
+            adapter.addList(listItems)
+        }
+        b.progressBar.visibility = View.INVISIBLE
+
+
+        // ADD Empty State
+        if (adapter.itemCount > 0) {
+            b.list.visibility = View.VISIBLE
+            b.emptyState.root.visibility = View.GONE
+        } else {
+            b.list.visibility = View.GONE
+            b.emptyState.root.visibility = View.VISIBLE
+        }
+        isLoad = false
+        b.swipeRefresh.isRefreshing = false
+
+    }
+
+    private fun setupRecycleView() {
+        b.list.setHasFixedSize(true)
+        b.list.layoutManager = layoutManager
+
+        adapter = GridFavoriteAdapter(this)
+        b.list.adapter = adapter
+
+    }
+
+    override fun onRefresh() {
+        adapter.clear()
+        getFavKos(true)
+    }
+
+    override fun onFavoriteClickListener(data: Favorite) {
+        val intent = Intent(context, DetailPropertyActivity::class.java)
+        intent.putExtra(Constant.DETAIL_PROPERTY_INTENT, data.id)
+        startActivity(intent)
     }
 }
