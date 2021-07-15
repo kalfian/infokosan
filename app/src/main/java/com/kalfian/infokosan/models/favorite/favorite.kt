@@ -12,5 +12,7 @@ import kotlinx.android.parcel.Parcelize
 data class Favorite(
     @PrimaryKey(autoGenerate = false)@ColumnInfo(name = "id") var id: Int = 0,
     @ColumnInfo(name = "title") var title: String = "",
-    @ColumnInfo(name = "body") var body: String = ""
+    @ColumnInfo(name = "image") var image: String = "",
+    @ColumnInfo(name = "alamat") var alamat: String = "",
+    @ColumnInfo(name = "harga") var harga: Int = 0
 ) : Parcelable
