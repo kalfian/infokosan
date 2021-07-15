@@ -20,6 +20,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.kalfian.infokosan.models.auth.AuthResponse;
+import com.kalfian.infokosan.models.register.RegisterResponse
+import com.kalfian.infokosan.modules.auth.LoginActivity
 import com.kalfian.infokosan.modules.home.HomeActivity
 import com.kalfian.infokosan.utils.Constant
 import www.sanju.motiontoast.MotionToast
@@ -54,7 +56,6 @@ class RegisterActivity : AppCompatActivity() {
 
             register(name, gender, phone, ktp, address, email, password)
         }
-
     }
 
     private fun register(
@@ -71,39 +72,51 @@ class RegisterActivity : AppCompatActivity() {
         b.progressBar.visibility = View.VISIBLE
 
         val params = HashMap<String, String>()
-        params["name"] = name.toString();
-        params["gender"] = gender.toString();
-        params["phone"] = phone.toString();
-        params["ktp"] = ktp.toString();
-        params["address"] = address.toString();
-        params["email"] = email.toString();
-        params["password"] = password.toString();
+        params["name"] = name.toString()
+        params["gender"] = gender.toString()
+        params["phone"] = phone.toString()
+        params["identity"] = ktp.toString()
+        params["ktp"] = ktp.toString()
+        params["address"] = address.toString()
+        params["email"] = email.toString()
+        params["role"] = Constant.ROLE_USER
+        params["password"] = password.toString()
 
-        RetrofitClient.instance.postAuth(parameters = params).enqueue(object:
-            Callback<AuthResponse> {
+        RetrofitClient.instance.postRegister(parameters = params).enqueue(object:
+            Callback<RegisterResponse> {
             override fun onResponse(
-                call: Call<AuthResponse>,
-                response: Response<AuthResponse>
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
             ) {
 
-                val responses = response.body()?.data
+                val responses = response.body()
                 Log.i("PARAM", "${password.toString()}")
                 Log.i("RESPONSE_API", "${response.code()}")
 
                 if (responses != null) {
-                    val intent = Intent(this@RegisterActivity, HomeActivity::class.java)
-                    MotionToast.createColorToast(this@RegisterActivity,"Daftar Berhasil!",
-                        "Selamat Datang ${responses.user.name} !",
-                        MotionToast.TOAST_SUCCESS,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(this@RegisterActivity, R.font.helvetica_regular)
-                    )
-                    startActivity(intent)
-                    finish()
+                    val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                    if (responses.code == 200) {
+                        MotionToast.createColorToast(this@RegisterActivity,"Berhasil!",
+                            "Anda Telah Berhasil Daftar!",
+                            MotionToast.TOAST_SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this@RegisterActivity, R.font.helvetica_regular)
+                        )
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        MotionToast.createColorToast(this@RegisterActivity,"Daftar Gagal!",
+                            "Kredensial Salah !",
+                            MotionToast.TOAST_ERROR,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this@RegisterActivity, R.font.helvetica_regular)
+                        )
+                    }
                 } else {
-                    MotionToast.createColorToast(this@RegisterActivity,"Daftar Gagal!",
-                        "Kredensial Salah !",
+                    MotionToast.createColorToast(this@RegisterActivity,"Ada Kesalaha!",
+                        "Server Error !",
                         MotionToast.TOAST_ERROR,
                         MotionToast.GRAVITY_BOTTOM,
                         MotionToast.LONG_DURATION,
@@ -111,12 +124,11 @@ class RegisterActivity : AppCompatActivity() {
                     )
                 }
 
-                Log.i("asu", responses.toString())
                 isLoad = false
                 b.progressBar.visibility = View.GONE
             }
 
-            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                 Toast.makeText(this@RegisterActivity, "${t.message}", Toast.LENGTH_LONG).show()
                 Log.d("RESPONSE_API_ERROR", "${t.message}")
                 isLoad = false

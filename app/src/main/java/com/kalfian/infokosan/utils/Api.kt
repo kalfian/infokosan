@@ -3,6 +3,7 @@ package com.kalfian.infokosan.utils
 import com.kalfian.infokosan.models.auth.AuthResponse
 import com.kalfian.infokosan.models.detail_property.DetailPropertyResponse
 import com.kalfian.infokosan.models.properties.PropertyResponse
+import com.kalfian.infokosan.models.register.RegisterResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -24,4 +25,9 @@ interface Api {
     fun postAuth(
             @QueryMap parameters: HashMap<String, String>
     ): Call<AuthResponse>
+
+    @POST("register/post-register")
+    fun postRegister(
+        @QueryMap parameters: HashMap<String, String>
+    ): Call<RegisterResponse>
 }

@@ -22,6 +22,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.kalfian.infokosan.models.auth.AuthResponse;
 import com.kalfian.infokosan.modules.home.HomeActivity
+import com.kalfian.infokosan.modules.register.RegisterActivity
 import com.kalfian.infokosan.utils.Constant
 import www.sanju.motiontoast.MotionToast
 
@@ -54,6 +55,12 @@ class LoginActivity : AppCompatActivity() {
             email = txtEmail.text.toString();
             password = txtPassword.text.toString();
             authLogin(email, password);
+        }
+
+        b.registerBtn.setOnClickListener {
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

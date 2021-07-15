@@ -25,6 +25,7 @@
 
         </activity>
         <activity android:name=".modules.property.DetailPropertyActivity" />
+        <activity android:name=".modules.register.RegisterActivity" />
         <activity android:name=".SplashScreenActivity" />
     </application>
 
