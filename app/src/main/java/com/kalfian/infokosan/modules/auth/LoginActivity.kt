@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.kalfian.infokosan.R
 import com.kalfian.infokosan.adapters.GridPropertyAdapter
 import com.kalfian.infokosan.databinding.ActivityLoginBinding
-import com.kalfian.infokosan.databinding.FragmentHomeBinding
-import com.kalfian.infokosan.models.properties.PropertyResponse
 import com.kalfian.infokosan.utils.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,11 +28,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var b: ActivityLoginBinding
     lateinit var sharedPref : SharedPreferences
 
-    private lateinit var adapter: GridPropertyAdapter
-    private lateinit var layoutManager: GridLayoutManager
     private var email = "";
     private var password = "";
-    private var totalPage = 10
     private var isLoad = false;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,12 +39,10 @@ class LoginActivity : AppCompatActivity() {
         b.progressBar.visibility = View.INVISIBLE
         val v = b.root
         setContentView(v)
-        var txtEmail: EditText = findViewById(R.id.email_edit)
-        var txtPassword: EditText = findViewById(R.id.password_edit)
 
         b.loginBtn.setOnClickListener {
-            email = txtEmail.text.toString();
-            password = txtPassword.text.toString();
+            email = b.emailEdit.text.toString()
+            password = b.passwordEdit.text.toString()
             authLogin(email, password);
         }
     }
@@ -60,8 +53,8 @@ class LoginActivity : AppCompatActivity() {
         b.progressBar.visibility = View.VISIBLE
 
         val params = HashMap<String, String>()
-        params["email"] = email.toString().trim()
-        params["password"] = password.toString().trim()
+        params["email"] = email.trim()
+        params["password"] = password.trim()
 
         RetrofitClient.instance.postAuth(parameters = params).enqueue(object:
                 Callback<AuthResponse> {
