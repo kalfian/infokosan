@@ -83,19 +83,22 @@ class LoginActivity : AppCompatActivity() {
                             MotionToast.LONG_DURATION,
                             ResourcesCompat.getFont(this@LoginActivity, R.font.helvetica_regular)
                     )
+                    setPref(responses.user.id, responses.user.email, responses.token)
                     startActivity(intent)
                     finish()
+                } else {
+                    MotionToast.createColorToast(this@LoginActivity,"Login Gagal!",
+                            "Kredensial Salah !",
+                            MotionToast.TOAST_ERROR,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this@LoginActivity, R.font.helvetica_regular)
+                    )
                 }
+
                 Log.i("asu", responses.toString())
                 isLoad = false
                 b.progressBar.visibility = View.GONE
-                MotionToast.createColorToast(this@LoginActivity,"Login Gagal!",
-                        "Kredensial Salah !",
-                        MotionToast.TOAST_ERROR,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(this@LoginActivity, R.font.helvetica_regular)
-                )
             }
 
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
@@ -106,10 +109,11 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun setPref(id: Int, email: String) {
+    private fun setPref(id: Int, email: String, token: String) {
         val editor:SharedPreferences.Editor = sharedPref.edit()
         editor.putInt(Constant.PREF_ID, id)
         editor.putString(Constant.PREF_EMAIL, email)
+        editor.putString(Constant.PREF_TOKEN, token)
         editor.apply()
     }
 }
