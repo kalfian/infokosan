@@ -13,7 +13,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".modules.property.DetailPropertyActivity">
+        <activity android:name=".modules.auth.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
         <activity android:name=".modules.home.HomeActivity">
 
         </activity>
-        <activity android:name=".modules.auth.LoginActivity" />
+        <activity android:name=".modules.property.DetailPropertyActivity" />
         <activity android:name=".SplashScreenActivity" />
     </application>
 
