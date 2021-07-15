@@ -36,8 +36,10 @@ class GridPropertyAdapter(onClick: AdapterPropertyOnClickListener): RecyclerView
             val formattedNumber: String = numberFormat.format(property.basicPrice).toString()
             b.priceKos.text = formattedNumber
 
+            var image = if(property.propertyImages.isNotEmpty()) property.propertyImages[0].image else "-"
+
             Picasso.get()
-                .load(property.propertyImages[0].image)
+                .load(image)
                 .placeholder(R.drawable.logo)
                 .into(b.imageKos)
 

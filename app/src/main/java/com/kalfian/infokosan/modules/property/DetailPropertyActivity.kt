@@ -245,6 +245,13 @@ class DetailPropertyActivity : AppCompatActivity() {
 
             sliderItemList.add(sliderItem)
         }
+
+        if (property.propertyImages.isEmpty()) {
+            var sliderItem = SliderItem("", "")
+            sliderItem.url = "-"
+            sliderItemList.add(sliderItem)
+        }
+
         adapter.renewItems(sliderItemList)
     }
 
