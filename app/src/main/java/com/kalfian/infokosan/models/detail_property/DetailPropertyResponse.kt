@@ -3,8 +3,10 @@ package com.kalfian.infokosan.models.detail_property
 import com.google.gson.annotations.SerializedName
 
 data class DetailPropertyResponse (
+    @SerializedName("code") var code : Int,
+    @SerializedName("message") var message : String,
     @SerializedName("success") var success : Boolean,
-    @SerializedName("data") var data : Data
+    @SerializedName("data") var data : DataProperty
 
 )
 data class LocationString (
@@ -31,23 +33,22 @@ data class Owner (
     @SerializedName("name") var name : String
 )
 
-data class Data (
-    @SerializedName("id") var id : Int,
-    @SerializedName("title") var title : String,
-    @SerializedName("desc") var desc : String,
-    @SerializedName("location") var location : Location,
-    @SerializedName("facilities") var facilities : String,
-    @SerializedName("poi") var poi : String,
-    @SerializedName("rules") var rules : String,
-    @SerializedName("room_total") var roomTotal : Int,
-    @SerializedName("is_featured") var isFeatured : Int,
-    @SerializedName("is_discount") var isDiscount : Int,
-    @SerializedName("type") var type : Int,
-    @SerializedName("type_string") var typeString : String,
-    @SerializedName("square_meter") var squareMeter : String,
-    @SerializedName("active_status") var activeStatus : Int,
-    @SerializedName("basic_price") var basicPrice : Int,
-    @SerializedName("property_images") var propertyImages : List<PropertyImages>,
-    @SerializedName("owner") var owner : Owner
+data class DataProperty(
+    @SerializedName("id") var id: Int,
+    @SerializedName("title") var title: String,
+    @SerializedName("desc") var desc: String,
+    @SerializedName("location") var location: Location,
+    @SerializedName("facilities") var facilities: String,
+    @SerializedName("poi") var poi: String,
+    @SerializedName("rules") var rules: String,
+    @SerializedName("room_total") var roomTotal: Int,
+    @SerializedName("is_featured") var isFeatured: Int,
+    @SerializedName("is_discount") var isDiscount: Int,
+    @SerializedName("type") var type: Int,
+    @SerializedName("type_string") var typeString: String,
+    @SerializedName("square_meter") var squareMeter: String,
+    @SerializedName("basic_price") var basicPrice: Int,
+    @SerializedName("property_images") var propertyImages: List<PropertyImages>,
+    @SerializedName("owner") var owner: Owner
 
 )

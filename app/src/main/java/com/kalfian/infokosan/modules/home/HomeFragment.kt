@@ -17,6 +17,8 @@ import com.kalfian.infokosan.databinding.FragmentHomeBinding
 import com.kalfian.infokosan.models.properties.PropertyResponse
 import com.kalfian.infokosan.adapters.GridPropertyAdapter
 import com.kalfian.infokosan.models.properties.Property
+import com.kalfian.infokosan.modules.auth.LoginActivity
+import com.kalfian.infokosan.modules.property.DetailPropertyActivity
 import com.kalfian.infokosan.modules.search.SearchActivity
 import com.kalfian.infokosan.utils.Constant
 import com.kalfian.infokosan.utils.Midtrans
@@ -172,6 +174,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefr
     }
 
     override fun onPropertyClickListener(data: Property) {
+        val intent = Intent(context, DetailPropertyActivity::class.java)
+        intent.putExtra(Constant.DETAIL_PROPERTY_INTENT, data.id)
+        startActivity(intent)
 //        var midtrans = context?.let { Midtrans(it, this) }
 //        midtrans?.initSdk()
 //        midtrans?.snapToken("3928102d-631e-4616-bc82-b0f1bd4b7c28")

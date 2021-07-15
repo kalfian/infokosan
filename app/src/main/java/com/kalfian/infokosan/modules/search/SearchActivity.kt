@@ -14,6 +14,7 @@ import com.kalfian.infokosan.adapters.GridPropertyAdapter
 import com.kalfian.infokosan.databinding.ActivitySearchBinding
 import com.kalfian.infokosan.models.properties.Property
 import com.kalfian.infokosan.models.properties.PropertyResponse
+import com.kalfian.infokosan.modules.property.DetailPropertyActivity
 import com.kalfian.infokosan.utils.Constant
 import com.kalfian.infokosan.utils.RetrofitClient
 import com.kalfian.infokosan.utils.hideKeyboard
@@ -167,6 +168,8 @@ class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener
     }
 
     override fun onPropertyClickListener(data: Property) {
-
+        val intent = Intent(applicationContext, DetailPropertyActivity::class.java)
+        intent.putExtra(Constant.DETAIL_PROPERTY_INTENT, data.id)
+        startActivity(intent)
     }
 }

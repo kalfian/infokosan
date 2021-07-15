@@ -14,15 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".modules.property.DetailPropertyActivity">
+
+        </activity>
+        <activity android:name=".modules.search.SearchActivity" />
+        <activity android:name=".modules.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".modules.search.SearchActivity" />
-        <activity android:name=".modules.home.HomeActivity">
-
         </activity>
         <activity android:name=".modules.auth.LoginActivity" />
         <activity android:name=".SplashScreenActivity" />

@@ -33,7 +33,7 @@ class GridPropertyAdapter(onClick: AdapterPropertyOnClickListener): RecyclerView
 
             val localeID =  Locale("in", "ID")
             val numberFormat = NumberFormat.getCurrencyInstance(localeID)
-            val formattedNumber: String = "IDR " + numberFormat.format(property.basicPrice).toString()
+            val formattedNumber: String = numberFormat.format(property.basicPrice).toString()
             b.priceKos.text = formattedNumber
 
             Picasso.get()
