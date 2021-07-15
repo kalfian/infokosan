@@ -45,16 +45,19 @@
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintBottom_toTopOf="@+id/bottom_rent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
         <LinearLayout
-            android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="16dp"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -84,20 +87,21 @@
 
             <TextView
                 android:id="@+id/title_kos"
-                android:layout_marginTop="16dp"
-                android:textSize="18dp"
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:layout_weight="1"
-                android:text="Kos Kosan Apik" />
+                android:text="Kos Kosan Apik"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
             <TextView
                 android:id="@+id/kota_kos"
-                android:textSize="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Malang, Jawa timur" />
+                android:text="Malang, Jawa timur"
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/harga_kos"
@@ -108,87 +112,156 @@
                 android:textColor="@color/kos_primary"
                 android:textSize="14dp"
                 android:textStyle="bold" />
+
             <View
-                android:background="@color/kos_gray_light"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/kos_gray_light" />
+
             <TextView
-                android:textSize="18dp"
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="8dp"
-                android:text="Deskripsi Kos" />
+                android:layout_weight="1"
+                android:text="Deskripsi Kos"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
             <TextView
                 android:id="@+id/deskripsi_kos"
-                android:textSize="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="16dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros." />
+                android:layout_weight="1"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros."
+                android:textSize="14dp" />
 
             <TextView
-                android:textSize="18dp"
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="8dp"
-                android:text="Fasilitas Kos" />
+                android:layout_weight="1"
+                android:text="Fasilitas Kos"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
             <TextView
                 android:id="@+id/fasilitas_kos"
-                android:textSize="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="16dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros." />
+                android:layout_weight="1"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros."
+                android:textSize="14dp" />
 
             <TextView
-                android:textSize="18dp"
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="8dp"
-                android:text="Peraturan Kos" />
+                android:layout_weight="1"
+                android:text="Peraturan Kos"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
             <TextView
                 android:id="@+id/peraturan_kos"
-                android:textSize="14dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="16dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros." />
+                android:layout_weight="1"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros."
+                android:textSize="14dp" />
 
             <TextView
-                android:textSize="18dp"
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="8dp"
-                android:text="Lokasi" />
+                android:layout_weight="1"
+                android:text="Lokasi"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
+
             <com.mapbox.mapboxsdk.maps.MapView
                 android:id="@+id/map_kos"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                />
+                android:layout_height="160dp" />
+
             <TextView
                 android:id="@+id/alamat_lengkap_kos"
-                android:textSize="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:text="20/F Malang Indah, Lowokwaru, Malang , Jawa Timur"
                 android:textAlignment="center"
-                android:text="20/F Malang Indah, Lowokwaru, Malang , Jawa Timur" />
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/go_to_maps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/primary_background_rounded"
+                android:padding="14dp"
+                android:text="Open In Maps"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottom_rent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/kos_primary" />
+        <LinearLayout
+            android:padding="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="6"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp.1.500.000 / Bulan"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="@color/kos_primary"
+                    android:text="Atur Pembayaran anda di Menu Booking" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_sewa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/primary_background_rounded"
+                android:padding="8dp"
+                android:layout_weight="4"
+                android:text="Sewa Sekarang"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

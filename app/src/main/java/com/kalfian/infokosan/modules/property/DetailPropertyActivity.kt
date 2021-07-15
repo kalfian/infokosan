@@ -1,8 +1,15 @@
 package com.kalfian.infokosan.modules.property
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kalfian.infokosan.R
 import com.kalfian.infokosan.adapters.SliderAdapter
 import com.kalfian.infokosan.databinding.ActivityDetailPropertyBinding
@@ -46,6 +53,9 @@ class DetailPropertyActivity : AppCompatActivity() {
     }
 
     private fun addMap(savedInstanceState: Bundle?) {
+        var lat = -7.9696
+        var lng = 112.6160
+
         b.mapKos.onCreate(savedInstanceState)
         b.mapKos.getMapAsync { mapboxMap ->
 
@@ -58,21 +68,44 @@ class DetailPropertyActivity : AppCompatActivity() {
                         imgRes
                     )
                 }
+                // Reset Marker
+                symbolManager.deleteAll()
                 symbolManager.create(
                     SymbolOptions()
-                    .withLatLng(LatLng(-7.9696, 112.6160))
+                    .withLatLng(LatLng(lat, lng))
                     .withIconImage("myMarker")
                 )
             }
 
             val position = CameraPosition.Builder()
-                .target(LatLng(-7.9696, 112.6160))
+                .target(LatLng(lat, lng))
                 .zoom(18.0)
                 .tilt(20.0)
                 .build()
             mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 1000)
 
+            b.goToMaps.setOnClickListener {
+                Log.d("LOCATION", "geo:${lat},${lng}")
+                val gmmIntentUri = Uri.parse("geo:${lat},${lng}")
+                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                startActivity(mapIntent)
+            }
 
+            b.btnSewa.setOnClickListener {
+                val dialog = BottomSheetDialog(this, R.style.Theme_Design_Light_BottomSheetDialog)
+                val dialogView = LayoutInflater.from(applicationContext).inflate(
+                    R.layout.rent_bottom_sheet,
+                    findViewById<LinearLayout>(R.id.rent_bottom_sheet)
+                )
+
+                dialogView.findViewById<View>(R.id.bottom_close_btn).setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialog.setContentView(dialogView)
+                dialog.show()
+
+            }
         }
     }
 
