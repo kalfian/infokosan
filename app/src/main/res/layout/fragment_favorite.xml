@@ -8,8 +8,6 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:id="@+id/swipe_refresh"
-        android:paddingLeft="@dimen/dimen_16"
-        android:paddingRight="@dimen/dimen_16"
         android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
@@ -20,16 +18,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <TextView
+                <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="List Favorite"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:background="@color/kos_primary"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:text="List Favorite" />
+
+
+                </LinearLayout>
 
                 <LinearLayout
+                    android:paddingLeft="@dimen/dimen_16"
+                    android:paddingRight="@dimen/dimen_16"
+                    android:paddingTop="@dimen/dimen_16"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">

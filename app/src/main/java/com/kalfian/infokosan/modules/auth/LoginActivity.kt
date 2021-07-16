@@ -116,6 +116,6 @@ class LoginActivity : AppCompatActivity() {
         editor.putInt(Constant.PREF_ID, id)
         editor.putString(Constant.PREF_EMAIL, email)
         editor.putString(Constant.PREF_TOKEN, token)
-        editor.commit()
+        editor.apply()
     }
 }

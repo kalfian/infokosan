@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".modules.home.HomeActivity">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/header_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <FrameLayout
         android:id="@+id/content_home"
         android:layout_width="match_parent"
@@ -22,7 +13,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include">
+        app:layout_constraintTop_toTopOf="parent">
 
 
     </FrameLayout>
