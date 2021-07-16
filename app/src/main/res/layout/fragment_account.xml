@@ -55,6 +55,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Hayolo ini siapa"
@@ -63,6 +64,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/loc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Malang"
@@ -70,6 +72,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="+62 851234117567"

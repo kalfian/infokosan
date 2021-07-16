@@ -19,6 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.kalfian.infokosan.models.auth.AuthResponse;
+import com.kalfian.infokosan.models.auth.Data
 import com.kalfian.infokosan.modules.home.HomeActivity
 import com.kalfian.infokosan.modules.register.RegisterActivity
 import com.kalfian.infokosan.utils.Constant
@@ -86,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
                         MotionToast.LONG_DURATION,
                         ResourcesCompat.getFont(this@LoginActivity, R.font.helvetica_regular)
                     )
-                    setPref(responses.user.id, responses.user.email, responses.token)
+                    setPref(responses)
                     startActivity(intent)
                     finish()
                 } else {
@@ -111,11 +112,13 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun setPref(id: Int, email: String, token: String) {
+    private fun setPref(data: Data?) {
         val editor:SharedPreferences.Editor = sharedPref.edit()
-        editor.putInt(Constant.PREF_ID, id)
-        editor.putString(Constant.PREF_EMAIL, email)
-        editor.putString(Constant.PREF_TOKEN, token)
+        editor.putInt(Constant.PREF_ID, data?.user?.id ?: 0)
+        editor.putString(Constant.PREF_EMAIL, data?.user?.email)
+        editor.putString(Constant.PREF_TOKEN, data?.token)
+        editor.putString(Constant.PREF_LOCATION, data?.user?.address)
+        editor.putString(Constant.PREF_NAME, data?.user?.name)
         editor.apply()
     }
 }

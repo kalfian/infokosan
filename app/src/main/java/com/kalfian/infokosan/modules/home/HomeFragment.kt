@@ -68,6 +68,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefr
         b.swipeRefreshRekomendasi.setOnRefreshListener(this)
 
         sharedPref = this.requireActivity().getSharedPreferences(Constant.PREF_CONF_NAME, Constant.PREF_CONF_MODE)
+        b.greetingText.text = "Hai ${sharedPref.getString(Constant.PREF_NAME, "")}!"
 
         setupRecycleView()
         getRecomendationKos(false)
