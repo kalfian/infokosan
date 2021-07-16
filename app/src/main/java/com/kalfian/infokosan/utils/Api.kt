@@ -4,13 +4,12 @@ import com.kalfian.infokosan.models.auth.AuthResponse
 import com.kalfian.infokosan.models.detail_property.DetailPropertyResponse
 import com.kalfian.infokosan.models.properties.PropertyResponse
 import com.kalfian.infokosan.models.register.RegisterResponse
+import com.kalfian.infokosan.models.rent.RentResponse
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 
 interface Api {
+
     @GET("property")
     fun getProperties(
         @QueryMap parameters: HashMap<String, String>
@@ -20,6 +19,11 @@ interface Api {
     fun getPropertyById(
         @Path("Id") propertyId: Int,
     ): Call<DetailPropertyResponse>
+
+    @GET("rent/get-rent-user")
+    fun getRents(
+        @Header("Authorization") token: String,
+    ): Call<RentResponse>
 
     @POST("auth/post-auth")
     fun postAuth(
