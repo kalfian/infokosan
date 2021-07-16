@@ -11,6 +11,7 @@ object Constant {
     const val PREF_LOCATION = "key.location"
     const val PREF_NAME = "key.name"
     const val PREF_TOKEN = "key.token"
+    const val PREF_JSON = "key.json"
 
     const val PREF_CONF_NAME = "AComputerEngineer"
     const val PREF_CONF_MODE = Context.MODE_PRIVATE

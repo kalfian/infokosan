@@ -2,6 +2,7 @@ package com.kalfian.infokosan.utils
 
 import com.kalfian.infokosan.models.auth.AuthResponse
 import com.kalfian.infokosan.models.detail_property.DetailPropertyResponse
+import com.kalfian.infokosan.models.profile.ProfileResponse
 import com.kalfian.infokosan.models.properties.PropertyResponse
 import com.kalfian.infokosan.models.register.RegisterResponse
 import retrofit2.Call
@@ -30,4 +31,7 @@ interface Api {
     fun postRegister(
         @QueryMap parameters: HashMap<String, String>
     ): Call<RegisterResponse>
+
+    @GET("auth/me")
+    fun getProfile(): Call<ProfileResponse>
 }

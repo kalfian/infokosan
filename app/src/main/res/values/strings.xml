@@ -3,6 +3,7 @@
     <string name="app_logo">App Logo</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="save">Simpan</string>
     <string name="email">Alamat Email</string>
     <string name="password">Kata Sandi</string>
     <string name="lupa_kata_sandi">Lupa kata Sandi?</string>
