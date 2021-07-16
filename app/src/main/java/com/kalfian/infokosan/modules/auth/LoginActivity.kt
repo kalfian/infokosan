@@ -14,30 +14,25 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.kalfian.infokosan.R
 import com.kalfian.infokosan.adapters.GridPropertyAdapter
 import com.kalfian.infokosan.databinding.ActivityLoginBinding
-import com.kalfian.infokosan.databinding.FragmentHomeBinding
-import com.kalfian.infokosan.models.properties.PropertyResponse
 import com.kalfian.infokosan.utils.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.kalfian.infokosan.models.auth.AuthResponse;
+import com.kalfian.infokosan.models.auth.Data
 import com.kalfian.infokosan.modules.home.HomeActivity
 import com.kalfian.infokosan.modules.register.RegisterActivity
 import com.kalfian.infokosan.utils.Constant
 import www.sanju.motiontoast.MotionToast
 
-private const val NAME = "AComputerEngineer"
-private const val MODE = Context.MODE_PRIVATE
+
 class LoginActivity : AppCompatActivity() {
     // Like the XML name activity_login to ActivityLoginBinding
     private lateinit var b: ActivityLoginBinding
     lateinit var sharedPref : SharedPreferences
 
-    private lateinit var adapter: GridPropertyAdapter
-    private lateinit var layoutManager: GridLayoutManager
     private var email = "";
     private var password = "";
-    private var totalPage = 10
     private var isLoad = false;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +42,12 @@ class LoginActivity : AppCompatActivity() {
         b.progressBar.visibility = View.INVISIBLE
         val v = b.root
         setContentView(v)
-        var txtEmail: EditText = findViewById(R.id.email_edit)
-        var txtPassword: EditText = findViewById(R.id.password_edit)
 
-        sharedPref = this.getSharedPreferences(NAME, MODE)
+        sharedPref = this.getSharedPreferences(Constant.PREF_CONF_NAME, Constant.PREF_CONF_MODE)
+
         b.loginBtn.setOnClickListener {
-            email = txtEmail.text.toString();
-            password = txtPassword.text.toString();
+            email = b.emailEdit.text.toString()
+            password = b.passwordEdit.text.toString()
             authLogin(email, password);
         }
 
@@ -70,8 +64,8 @@ class LoginActivity : AppCompatActivity() {
         b.progressBar.visibility = View.VISIBLE
 
         val params = HashMap<String, String>()
-        params["email"] = email.toString().trim()
-        params["password"] = password.toString().trim()
+        params["email"] = email.trim()
+        params["password"] = password.trim()
 
         RetrofitClient.instance.postAuth(parameters = params).enqueue(object:
             Callback<AuthResponse> {
@@ -93,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
                         MotionToast.LONG_DURATION,
                         ResourcesCompat.getFont(this@LoginActivity, R.font.helvetica_regular)
                     )
-                    setPref(responses.user.id, responses.user.email, responses.token)
+                    setPref(responses)
                     startActivity(intent)
                     finish()
                 } else {
@@ -118,11 +112,13 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun setPref(id: Int, email: String, token: String) {
+    private fun setPref(data: Data?) {
         val editor:SharedPreferences.Editor = sharedPref.edit()
-        editor.putInt(Constant.PREF_ID, id)
-        editor.putString(Constant.PREF_EMAIL, email)
-        editor.putString(Constant.PREF_TOKEN, token)
+        editor.putInt(Constant.PREF_ID, data?.user?.id ?: 0)
+        editor.putString(Constant.PREF_EMAIL, data?.user?.email)
+        editor.putString(Constant.PREF_TOKEN, data?.token)
+        editor.putString(Constant.PREF_LOCATION, data?.user?.address)
+        editor.putString(Constant.PREF_NAME, data?.user?.name)
         editor.apply()
     }
 }

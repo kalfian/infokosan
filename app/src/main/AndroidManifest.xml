@@ -9,24 +9,25 @@
     <application
         android:icon="@drawable/logo"
         android:label="@string/app_name"
+        android:hardwareAccelerated="false"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         <activity android:name=".modules.auth.LoginActivity">
+
+        </activity>
+        <activity android:name=".modules.search.SearchActivity" />
+        <activity android:name=".modules.home.HomeActivity"/>
+        <activity android:name=".modules.property.DetailPropertyActivity" />
+        <activity android:name=".modules.register.RegisterActivity" />
+        <activity android:name=".SplashScreenActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.search.SearchActivity" />
-        <activity android:name=".modules.home.HomeActivity">
-
-        </activity>
-        <activity android:name=".modules.property.DetailPropertyActivity" />
-        <activity android:name=".modules.register.RegisterActivity" />
-        <activity android:name=".SplashScreenActivity" />
     </application>
 
 </manifest>

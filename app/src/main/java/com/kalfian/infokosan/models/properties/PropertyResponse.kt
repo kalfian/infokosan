@@ -76,7 +76,9 @@ data class Property (
     var propertyImages : List<PropertyImages>,
 
     @SerializedName("owner")
-    var owner : Owner
+    var owner : Owner,
+
+    var isFavorite: Boolean
 
 )
 

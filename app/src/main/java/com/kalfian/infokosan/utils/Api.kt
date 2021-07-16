@@ -16,9 +16,9 @@ interface Api {
         @QueryMap parameters: HashMap<String, String>
     ): Call<PropertyResponse>
 
-    @GET("property/{id}")
+    @GET("property/{Id}")
     fun getPropertyById(
-        @Path("id") propertyId: Int,
+        @Path("Id") propertyId: Int,
     ): Call<DetailPropertyResponse>
 
     @POST("auth/post-auth")

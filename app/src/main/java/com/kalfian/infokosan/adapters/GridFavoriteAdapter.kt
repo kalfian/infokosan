@@ -3,41 +3,37 @@ package com.kalfian.infokosan.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.kalfian.infokosan.R
 import com.kalfian.infokosan.databinding.GridItemKosBinding
-import com.kalfian.infokosan.models.properties.Property
-import com.kalfian.infokosan.utils.Midtrans
-import com.kalfian.infokosan.utils.listen
+import com.kalfian.infokosan.models.favorite.Favorite
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class GridPropertyAdapter(onClick: AdapterPropertyOnClickListener): RecyclerView.Adapter<GridPropertyAdapter.ViewHolder>() {
+class GridFavoriteAdapter(onClick: AdapterFavoriteOnClickListener): RecyclerView.Adapter<GridFavoriteAdapter.ViewHolder>() {
 
-    private var list = ArrayList<Property>()
+    private var list = ArrayList<Favorite>()
     private var onClickAdapter = onClick
 
-    inner class ViewHolder(itemView: View, onClickListener: AdapterPropertyOnClickListener): RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View, onClickListener: AdapterFavoriteOnClickListener): RecyclerView.ViewHolder(itemView) {
         private val b = GridItemKosBinding.bind(itemView)
-        private var clickListener: AdapterPropertyOnClickListener = onClickListener
+        private var clickListener: AdapterFavoriteOnClickListener = onClickListener
 
-        fun bind(property: Property) {
+        fun bind(fav: Favorite) {
 
-            b.favoriteKos.isChecked = property.isFavorite
-            b.addressKos.text = property.location.address
-            b.titleKos.text = property.title
+            b.favoriteKos.isChecked = true
+            b.addressKos.text = fav.alamat
+            b.titleKos.text = fav.title
 
             val localeID =  Locale("in", "ID")
             val numberFormat = NumberFormat.getCurrencyInstance(localeID)
-            val formattedNumber: String = numberFormat.format(property.basicPrice).toString()
+            val formattedNumber: String = numberFormat.format(fav.harga).toString()
             b.priceKos.text = formattedNumber
 
-            var image = if(property.propertyImages.isNotEmpty()) property.propertyImages[0].image else "-"
+            var image = fav.image
 
             Picasso.get()
                 .load(image)
@@ -45,16 +41,14 @@ class GridPropertyAdapter(onClick: AdapterPropertyOnClickListener): RecyclerView
                 .into(b.imageKos)
 
             itemView.setOnClickListener {
-                clickListener.onPropertyClickListener(list[adapterPosition])
+                clickListener.onFavoriteClickListener(list[adapterPosition])
             }
-
             b.favoriteKos.setOnClickListener {
-                clickListener.onFavoriteClickListener(b.favoriteKos, list[adapterPosition])
+                clickListener.onDeleteFavoriteListener(list[adapterPosition])
             }
-
-
 
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -70,7 +64,7 @@ class GridPropertyAdapter(onClick: AdapterPropertyOnClickListener): RecyclerView
         return list.size
     }
 
-    fun addList(items: ArrayList<Property>) {
+    fun addList(items: List<Favorite>) {
         list.addAll(items)
         notifyDataSetChanged()
     }
@@ -80,9 +74,9 @@ class GridPropertyAdapter(onClick: AdapterPropertyOnClickListener): RecyclerView
         notifyDataSetChanged()
     }
 
-    interface AdapterPropertyOnClickListener {
-        fun onPropertyClickListener(data: Property)
-        fun onFavoriteClickListener(ch: CheckBox, data: Property)
+    interface AdapterFavoriteOnClickListener {
+        fun onFavoriteClickListener(data: Favorite)
+        fun onDeleteFavoriteListener(data: Favorite)
     }
 
 }

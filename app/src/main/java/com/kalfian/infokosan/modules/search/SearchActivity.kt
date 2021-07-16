@@ -6,16 +6,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.kalfian.infokosan.adapters.GridPropertyAdapter
 import com.kalfian.infokosan.databinding.ActivitySearchBinding
+import com.kalfian.infokosan.models.favorite.Favorite
 import com.kalfian.infokosan.models.properties.Property
 import com.kalfian.infokosan.models.properties.PropertyResponse
+import com.kalfian.infokosan.modules.property.DetailPropertyActivity
 import com.kalfian.infokosan.utils.Constant
 import com.kalfian.infokosan.utils.RetrofitClient
+import com.kalfian.infokosan.utils.db.FavoriteDB
+import com.kalfian.infokosan.utils.db.FavoriteDao
 import com.kalfian.infokosan.utils.hideKeyboard
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,6 +38,10 @@ class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener
     private var isLoad = false
     var q: String = ""
 
+    // DAO
+    private lateinit var database: FavoriteDB
+    private lateinit var dao: FavoriteDao
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         b = ActivitySearchBinding.inflate(layoutInflater)
@@ -47,6 +56,9 @@ class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener
         b.backButton.setOnClickListener {
             finish()
         }
+
+        database = FavoriteDB.getDatabase(applicationContext)
+        dao = database.getFavoriteDao()
 
         setupRecycleView()
         getPropertyKos(false, q)
@@ -167,6 +179,27 @@ class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener
     }
 
     override fun onPropertyClickListener(data: Property) {
+        val intent = Intent(applicationContext, DetailPropertyActivity::class.java)
+        intent.putExtra(Constant.DETAIL_PROPERTY_INTENT, data.id)
+        startActivity(intent)
+    }
 
+    override fun onFavoriteClickListener(ch: CheckBox, data: Property) {
+        val image = if(data.propertyImages.isNotEmpty()) data.propertyImages[0].image else "-"
+        var fav = Favorite(data.id, data.title, image, data.location.address, data.basicPrice)
+        saveOrDeleteFavorite(fav, ch)
+    }
+
+    private fun saveOrDeleteFavorite(fav: Favorite, ch: CheckBox){
+        if (dao.getById(fav.id).isEmpty()){
+            dao.insert(fav)
+            ch.isChecked = true
+            Toast.makeText(applicationContext, "Berhasil menambah favorit!", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            dao.delete(fav)
+            ch.isChecked = false
+            Toast.makeText(applicationContext, "Berhasil menghapus favorit!", Toast.LENGTH_SHORT).show()
+        }
     }
 }
