@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "265484503114",
+    "project_id": "infokosan-c6b3f",
+    "storage_bucket": "infokosan-c6b3f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265484503114:android:10ace686cc3d24d2987eb3",
+        "android_client_info": {
+          "package_name": "com.kalfian.infokosan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265484503114-uhplrcu5m5u476uuhjvbm2orialkfacf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCqDeKq0fXSqYU5e07JBKW8N3nd6BGQks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265484503114-uhplrcu5m5u476uuhjvbm2orialkfacf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
