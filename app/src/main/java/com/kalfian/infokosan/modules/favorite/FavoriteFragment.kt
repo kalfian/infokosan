@@ -80,8 +80,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), SwipeRefreshLayou
 
         b.progressBar.visibility = View.INVISIBLE
 
-
-        // ADD Empty State
+        // Empty State
         if (adapter.itemCount > 0) {
             b.list.visibility = View.VISIBLE
             b.emptyState.root.visibility = View.GONE
