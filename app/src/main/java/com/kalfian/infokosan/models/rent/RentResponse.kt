@@ -68,15 +68,15 @@ data class Payment (
     @SerializedName("id") var id : Int,
     @SerializedName("code") var code : String,
     @SerializedName("payment_response") var paymentResponse : String,
-    @SerializedName("amount") var amount : String,
-    @SerializedName("admin_cost") var adminCost : String,
+    @SerializedName("amount") var amount : Float,
+    @SerializedName("admin_cost") var adminCost : Float,
     @SerializedName("name") var name : String,
-    @SerializedName("status_payment") var statusPayment : String,
+    @SerializedName("status_payment") var statusPayment : Int,
     @SerializedName("snap_token") var snapToken : String,
     @SerializedName("paid_at") var paidAt : String,
     @SerializedName("created_at") var createdAt : String,
     @SerializedName("updated_at") var updatedAt : String,
-    @SerializedName("ref_status") var refStatus : RefStatus
+    @SerializedName("ref_status") var refStatus : Int
 
 )
 
@@ -89,6 +89,6 @@ data class DataRent (
     @SerializedName("enter_date") var enterDate : String,
     @SerializedName("created_at") var createdAt : String,
     @SerializedName("updated_at") var updatedAt : String,
-    @SerializedName("property") var property : List<Property>,
+    @SerializedName("property") var property : Property,
     @SerializedName("payment") var payment : Payment
 )

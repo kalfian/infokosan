@@ -1,6 +1,7 @@
 package com.kalfian.infokosan.modules.search
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -38,12 +39,19 @@ class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener
     private var isLoad = false
     var q: String = ""
 
+    lateinit var sharedPref : SharedPreferences
+    var userId = 0
+
     // DAO
     private lateinit var database: FavoriteDB
     private lateinit var dao: FavoriteDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPref = getSharedPreferences(Constant.PREF_CONF_NAME, Constant.PREF_CONF_MODE)
+        userId = sharedPref.getInt(Constant.PREF_ID, 0)
+
         b = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(b.root)
 
@@ -191,7 +199,7 @@ class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener
     }
 
     private fun saveOrDeleteFavorite(fav: Favorite, ch: CheckBox){
-        if (dao.getById(fav.id).isEmpty()){
+        if (dao.getById(fav.id, userId).isEmpty()){
             dao.insert(fav)
             ch.isChecked = true
             Toast.makeText(applicationContext, "Berhasil menambah favorit!", Toast.LENGTH_SHORT).show()

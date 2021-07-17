@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.kalfian.infokosan.models.favorite.Favorite
 
 //Database annotation to specify the entities and set version
-@Database(entities = [Favorite::class], version = 1, exportSchema = false)
+@Database(entities = [Favorite::class], version = 2, exportSchema = false)
 abstract class FavoriteDB : RoomDatabase() {
 
     companion object {

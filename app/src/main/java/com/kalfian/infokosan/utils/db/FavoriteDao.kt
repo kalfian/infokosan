@@ -15,9 +15,9 @@ interface FavoriteDao {
     @Delete
     fun delete(favorite: Favorite)
 
-    @Query("SELECT * FROM favorite")
-    fun getAll() : List<Favorite>
+    @Query("SELECT * FROM favorite WHERE user_id = :userId")
+    fun getAll(userId: Int) : List<Favorite>
 
-    @Query("SELECT * FROM favorite WHERE id = :id")
-    fun getById(id: Int) : List<Favorite>
+    @Query("SELECT * FROM favorite WHERE id = :id AND user_id = :userId")
+    fun getById(id: Int, userId: Int) : List<Favorite>
 }

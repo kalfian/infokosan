@@ -45,6 +45,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefr
     private var isLoad = false
 
     lateinit var sharedPref : SharedPreferences
+    var userId = 0
 
     // DAO
     private lateinit var database: FavoriteDB
@@ -69,6 +70,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefr
 
         sharedPref = this.requireActivity().getSharedPreferences(Constant.PREF_CONF_NAME, Constant.PREF_CONF_MODE)
         b.greetingText.text = "Hai ${sharedPref.getString(Constant.PREF_NAME, "")}!"
+        userId = sharedPref.getInt(Constant.PREF_ID, 0)
 
         setupRecycleView()
         getRecomendationKos(false)
@@ -137,8 +139,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefr
                 Log.d("RESPONSE_API", "${response.body()}")
 
                 if (responses != null) {
+
                     responses.forEach {
-                        val fav = dao.getById(it.id)
+                        val fav = dao.getById(it.id, userId)
                         if (fav.isNotEmpty()) {
                             it.isFavorite = true
                         }
@@ -202,12 +205,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), SwipeRefreshLayout.OnRefr
 
     override fun onFavoriteClickListener(ch: CheckBox, data: Property) {
         val image = if(data.propertyImages.isNotEmpty()) data.propertyImages[0].image else "-"
-        var fav = Favorite(data.id, data.title, image, data.location.address, data.basicPrice)
+        var fav = Favorite(data.id, data.title, image, data.location.address, data.basicPrice, userId)
         saveOrDeleteFavorite(fav, ch)
     }
 
     private fun saveOrDeleteFavorite(fav: Favorite, ch: CheckBox){
-        if (dao.getById(fav.id).isEmpty()){
+        if (dao.getById(fav.id, userId).isEmpty()){
             dao.insert(fav)
             ch.isChecked = true
             Toast.makeText(context, "Berhasil menambah favorit!", Toast.LENGTH_SHORT).show()

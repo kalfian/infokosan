@@ -2,6 +2,7 @@ package com.kalfian.infokosan.modules.property
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -17,11 +18,13 @@ import com.kalfian.infokosan.adapters.SliderAdapter
 import com.kalfian.infokosan.databinding.ActivityDetailPropertyBinding
 import com.kalfian.infokosan.models.detail_property.DataProperty
 import com.kalfian.infokosan.models.detail_property.DetailPropertyResponse
-import com.kalfian.infokosan.models.properties.PropertyResponse
+import com.kalfian.infokosan.models.rent.RentRequest
 import com.kalfian.infokosan.models.sliders.SliderItem
+import com.kalfian.infokosan.modules.auth.LoginActivity
 import com.kalfian.infokosan.utils.Constant
 import com.kalfian.infokosan.utils.LoadingDialog
 import com.kalfian.infokosan.utils.RetrofitClient
+import com.kalfian.infokosan.utils.customDialog
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.camera.CameraPosition
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
@@ -47,7 +50,9 @@ class DetailPropertyActivity : AppCompatActivity() {
     private lateinit var b: ActivityDetailPropertyBinding
     private lateinit var property: DataProperty
     private lateinit var adapter: SliderAdapter
-    private lateinit var dialog: LoadingDialog
+    private lateinit var loadDialog: LoadingDialog
+
+    lateinit var sharedPref : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token))
@@ -57,8 +62,10 @@ class DetailPropertyActivity : AppCompatActivity() {
         setContentView(b.root)
         b.mapKos.onCreate(savedInstanceState)
 
-        dialog = LoadingDialog(this)
-        dialog.start()
+        sharedPref = getSharedPreferences(Constant.PREF_CONF_NAME, Constant.PREF_CONF_MODE)
+
+        loadDialog = LoadingDialog(this)
+        loadDialog.start()
 
         idProperty = intent.getIntExtra(Constant.DETAIL_PROPERTY_INTENT, 0)
         getProperty(idProperty)
@@ -81,39 +88,84 @@ class DetailPropertyActivity : AppCompatActivity() {
             val localeID =  Locale("in", "ID")
             val numberFormat = NumberFormat.getCurrencyInstance(localeID)
             val formattedNumber: String = numberFormat.format(property.basicPrice).toString()
-            dialogView.findViewById<EditText>(R.id.bottom_harga_kos).setText(formattedNumber)
+            var tgl: String = ""
 
-            dialogView.findViewById<View>(R.id.bottom_tgl_masuk).setOnClickListener {
+            dialogView.findViewById<EditText>(R.id.bottom_harga_kos).setText(formattedNumber)
+            val inputTgl = dialogView.findViewById<EditText>(R.id.bottom_tgl_masuk)
+            inputTgl.setOnClickListener {
                 val c = Calendar.getInstance()
                 val year = c.get(Calendar.YEAR)
                 val month = c.get(Calendar.MONTH)
                 val day = c.get(Calendar.DAY_OF_MONTH)
 
 
-                val dpd = DatePickerDialog(this, { view, year, monthOfYear, dayOfMonth ->
+                val dpd = DatePickerDialog(this, R.style.DialogTheme, { _, year, monthOfYear, dayOfMonth ->
                     // Display Selected date in textbox
-                    MotionToast.createColorToast(this, "Booking sukses!",
-                        "$dayOfMonth $monthOfYear, $year",
-                        MotionToast.TOAST_SUCCESS,
-                        MotionToast.GRAVITY_TOP,
-                        MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(this, R.font.helvetica_regular)
-                    )
+                    var month = monthOfYear + 1
+                    var fm = "" + month
+                    var fd = "" + dayOfMonth
+                    if (month < 10) {
+                        fm = "0$month"
+                    }
+                    if (dayOfMonth < 10) {
+                        fd = "0$dayOfMonth"
+                    }
+                    tgl  = "$year-$fm-$fd"
+                    inputTgl.setText("$fd - $fm - $year")
+
                 }, year, month, day)
 
                 dpd.show()
             }
 
             dialogView.findViewById<View>(R.id.bottom_booking_btn).setOnClickListener {
-                MotionToast.createColorToast(this,"Booking sukses!",
-                    "silahkan ke menu booking untuk melakukan pembayaran",
-                    MotionToast.TOAST_SUCCESS,
-                    MotionToast.GRAVITY_TOP,
-                    MotionToast.LONG_DURATION,
-                    ResourcesCompat.getFont(this, R.font.helvetica_regular)
-                )
-                dialog.dismiss()
-                finish()
+                val token = sharedPref.getString(Constant.PREF_TOKEN, "") ?: ""
+                val params = HashMap<String, Any>()
+                params["property_id"] = property.id
+                params["enter_date"] = tgl
+
+                if (tgl == "") {
+                    MotionToast.createColorToast(this@DetailPropertyActivity,"Gagal!",
+                        "Tanggal tidak boleh kosong!",
+                        MotionToast.TOAST_ERROR,
+                        MotionToast.GRAVITY_TOP,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(applicationContext, R.font.helvetica_regular)
+                    )
+                    return@setOnClickListener
+                }
+
+                loadDialog.start()
+
+                RetrofitClient.instance.addRent(token, params).enqueue(object: Callback<RentRequest> {
+                    override fun onResponse(
+                        call: Call<RentRequest>,
+                        response: Response<RentRequest>
+                    ) {
+                        MotionToast.createColorToast(this@DetailPropertyActivity,"Pemesanan Berhasil",
+                            "Silahkan menuju menu Booking untuk melakukan pembayaran",
+                            MotionToast.TOAST_SUCCESS,
+                            MotionToast.GRAVITY_TOP,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(applicationContext, R.font.helvetica_regular)
+                        )
+                        dialog.dismiss()
+                        loadDialog.stop()
+                        finish()
+                    }
+
+                    override fun onFailure(call: Call<RentRequest>, t: Throwable) {
+                        loadDialog.stop()
+                        MotionToast.createColorToast(this@DetailPropertyActivity,"Pemesanan Gagal",
+                            "Terjadi kesalahan silahkan ulangi beberapa saat lagi",
+                            MotionToast.TOAST_ERROR,
+                            MotionToast.GRAVITY_TOP,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(applicationContext, R.font.helvetica_regular)
+                        )
+                    }
+
+                })
             }
 
             dialog.setContentView(dialogView)
@@ -129,7 +181,7 @@ class DetailPropertyActivity : AppCompatActivity() {
                 response: Response<DetailPropertyResponse>
             ) {
                 if (response.code() > 299) {
-                    dialog.stop()
+                    loadDialog.stop()
                     MotionToast.createColorToast(this@DetailPropertyActivity,"Kesalahan!",
                         "Gagal Mengambil data Kos",
                         MotionToast.TOAST_ERROR,
@@ -145,11 +197,11 @@ class DetailPropertyActivity : AppCompatActivity() {
                 settingSlider()
                 addItemSlider()
                 setDataProperty()
-                dialog.stop()
+                loadDialog.stop()
             }
 
             override fun onFailure(call: Call<DetailPropertyResponse>, t: Throwable) {
-                dialog.stop()
+                loadDialog.stop()
                 MotionToast.createColorToast(this@DetailPropertyActivity,"Kesalahan!",
                     "Gagal Mengambil data Kos",
                     MotionToast.TOAST_ERROR,

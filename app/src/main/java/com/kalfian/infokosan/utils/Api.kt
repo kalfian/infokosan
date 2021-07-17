@@ -4,6 +4,7 @@ import com.kalfian.infokosan.models.auth.AuthResponse
 import com.kalfian.infokosan.models.detail_property.DetailPropertyResponse
 import com.kalfian.infokosan.models.properties.PropertyResponse
 import com.kalfian.infokosan.models.register.RegisterResponse
+import com.kalfian.infokosan.models.rent.RentRequest
 import com.kalfian.infokosan.models.rent.RentResponse
 import retrofit2.Call
 import retrofit2.http.*
@@ -24,6 +25,12 @@ interface Api {
     fun getRents(
         @Header("Authorization") token: String,
     ): Call<RentResponse>
+
+    @POST("rent/rent-store")
+    fun addRent(
+        @Header("Authorization") token: String,
+        @Body parameters: HashMap<String, Any>,
+    ): Call<RentRequest>
 
     @POST("auth/post-auth")
     fun postAuth(

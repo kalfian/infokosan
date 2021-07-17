@@ -14,5 +14,6 @@ data class Favorite(
     @ColumnInfo(name = "title") var title: String = "",
     @ColumnInfo(name = "image") var image: String = "",
     @ColumnInfo(name = "alamat") var alamat: String = "",
-    @ColumnInfo(name = "harga") var harga: Int = 0
+    @ColumnInfo(name = "harga") var harga: Int = 0,
+    @ColumnInfo(name = "user_id") var userId: Int = 0
 ) : Parcelable
