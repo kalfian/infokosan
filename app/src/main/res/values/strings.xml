@@ -24,6 +24,6 @@
     <string name="id_number">No KTP</string>
     <string name="address">Alamat</string>
 
-
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="mapbox_access_token">pk.eyJ1Ijoia3VrdWhhbGYiLCJhIjoiY2txejg0dXRiMWZ0MjJvbzhwNzdsNXpuaCJ9.JVKrSO2Q-3bySWU7reFSiw</string>
 </resources>

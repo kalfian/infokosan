@@ -15,8 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InfoKosan">
 
+        <service android:name=".utils.FcmService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        
         <activity android:name=".modules.auth.LoginActivity">
-
+            
         </activity>
         <activity android:name=".modules.search.SearchActivity" />
         <activity android:name=".modules.home.HomeActivity"/>
