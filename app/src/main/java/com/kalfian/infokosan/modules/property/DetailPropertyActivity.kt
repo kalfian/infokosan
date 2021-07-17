@@ -119,9 +119,8 @@ class DetailPropertyActivity : AppCompatActivity() {
             }
 
             dialogView.findViewById<View>(R.id.bottom_booking_btn).setOnClickListener {
-                val token = sharedPref.getString(Constant.PREF_TOKEN, "") ?: ""
+                val token = "Bearer "+sharedPref.getString(Constant.PREF_TOKEN, "") ?: ""
                 val params = HashMap<String, Any>()
-                params["property_id"] = property.id
                 params["enter_date"] = tgl
 
                 if (tgl == "") {
@@ -137,11 +136,24 @@ class DetailPropertyActivity : AppCompatActivity() {
 
                 loadDialog.start()
 
-                RetrofitClient.instance.addRent(token, params).enqueue(object: Callback<RentRequest> {
+                RetrofitClient.instance.addRent(token, params, property.id).enqueue(object: Callback<RentRequest> {
                     override fun onResponse(
                         call: Call<RentRequest>,
                         response: Response<RentRequest>
                     ) {
+
+                        if (response.code() > 299) {
+                            loadDialog.stop()
+                            MotionToast.createColorToast(this@DetailPropertyActivity,"Pemesanan Gagal",
+                                response.body()?.message ?: "Silahkan hubungi admin",
+                                MotionToast.TOAST_ERROR,
+                                MotionToast.GRAVITY_TOP,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(applicationContext, R.font.helvetica_regular)
+                            )
+                            return
+                        }
+
                         MotionToast.createColorToast(this@DetailPropertyActivity,"Pemesanan Berhasil",
                             "Silahkan menuju menu Booking untuk melakukan pembayaran",
                             MotionToast.TOAST_SUCCESS,

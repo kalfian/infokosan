@@ -1,16 +1,17 @@
 package com.kalfian.infokosan.adapters
 
-import android.opengl.Visibility
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kalfian.infokosan.R
 import com.kalfian.infokosan.databinding.ListItemRentBinding
-import com.kalfian.infokosan.models.properties.Property
 import com.kalfian.infokosan.models.rent.DataRent
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -27,11 +28,25 @@ class ListRentAdapter(onClick: AdapterRentOnClickListener): RecyclerView.Adapter
         fun bind(data: DataRent) {
 
             // Status Lunas
-            if(data.activeStatus != 2) {
+            if(data.activeStatus != 1) {
                 b.btnBayar.visibility = View.VISIBLE
+                b.statusBayar.text = "Belum Lunas"
+                b.statusBayar.background = itemView.context.getDrawable(R.drawable.status_red)
+                b.statusBayar.setTextColor(itemView.context.resources.getColor(R.color.kos_red))
             } else {
                 b.btnBayar.visibility = View.GONE
+                b.statusBayar.text = "Lunas"
+                b.statusBayar.background = itemView.context.getDrawable(R.drawable.status_green)
+                b.statusBayar.setTextColor(itemView.context.resources.getColor(R.color.kos_green))
             }
+
+            val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val formatter = SimpleDateFormat("dd - MM - yyyy")
+            val output: String = formatter.format(parser.parse(data.enterDate))
+
+            b.title.text = data.property.title
+            b.address.text = data.property.address
+            b.tglSewa.text = "Sewa $output"
 
             val price = data.payment.adminCost + data.payment.amount
             val localeID =  Locale("in", "ID")
@@ -57,7 +72,7 @@ class ListRentAdapter(onClick: AdapterRentOnClickListener): RecyclerView.Adapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.grid_item_kos, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.list_item_rent, parent, false)
         return ViewHolder(v, onClickAdapter)
     }
 

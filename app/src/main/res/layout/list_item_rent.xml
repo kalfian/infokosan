@@ -62,9 +62,11 @@
 
             <TextView
                 android:id="@+id/title"
+                android:maxLines="2"
+                android:ellipsize="marquee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kos Jalanin aja"
+                android:text="Kos Jalanin ajaKos Jalanin ajaKos Jalanin ajaKos Jalanin ajaKos Jalanin aja"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="169dp"
@@ -75,6 +77,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Jl jalan ke masa depan"
+                android:maxLines="2"
+                android:ellipsize="marquee"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:layout_marginBottom="6dp"/>
