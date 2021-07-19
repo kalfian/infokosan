@@ -1,28 +1,26 @@
 package com.kalfian.infokosan.modules.auth
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kalfian.infokosan.R
-import com.kalfian.infokosan.adapters.GridPropertyAdapter
 import com.kalfian.infokosan.databinding.ActivityLoginBinding
-import com.kalfian.infokosan.utils.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import com.kalfian.infokosan.models.auth.AuthResponse;
+import com.kalfian.infokosan.models.auth.AuthResponse
 import com.kalfian.infokosan.models.auth.Data
 import com.kalfian.infokosan.modules.home.HomeActivity
 import com.kalfian.infokosan.modules.register.RegisterActivity
 import com.kalfian.infokosan.utils.Constant
+import com.kalfian.infokosan.utils.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import www.sanju.motiontoast.MotionToast
 
 
@@ -31,9 +29,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var b: ActivityLoginBinding
     lateinit var sharedPref : SharedPreferences
 
-    private var email = "";
-    private var password = "";
-    private var isLoad = false;
+    private var email = ""
+    private var password = ""
+    private var isLoad = false
+    var token = ""
+    val TAG = "TESTTETE"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +44,18 @@ class LoginActivity : AppCompatActivity() {
         setContentView(v)
 
         sharedPref = this.getSharedPreferences(Constant.PREF_CONF_NAME, Constant.PREF_CONF_MODE)
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            token = task.result ?: ""
+            // Log and toast
+            Log.d(TAG, token)
+        })
 
         b.loginBtn.setOnClickListener {
             email = b.emailEdit.text.toString()
@@ -66,6 +78,7 @@ class LoginActivity : AppCompatActivity() {
         val params = HashMap<String, String>()
         params["email"] = email.trim()
         params["password"] = password.trim()
+        params["token"] = token
 
         RetrofitClient.instance.postAuth(parameters = params).enqueue(object:
             Callback<AuthResponse> {

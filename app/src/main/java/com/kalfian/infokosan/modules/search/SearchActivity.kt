@@ -138,6 +138,12 @@ class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener
                 Log.d("RESPONSE_API", "${response.body()}")
 
                 if (responses != null) {
+                    responses.forEach {
+                        val fav = dao.getById(it.id, userId)
+                        if (fav.isNotEmpty()) {
+                            it.isFavorite = true
+                        }
+                    }
                     adapter.addList(responses)
                 }
 
@@ -194,12 +200,12 @@ class SearchActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener
 
     override fun onFavoriteClickListener(ch: CheckBox, data: Property) {
         val image = if(data.propertyImages.isNotEmpty()) data.propertyImages[0].image else "-"
-        var fav = Favorite(data.id, data.title, image, data.location.address, data.basicPrice)
+        var fav = Favorite(0, data.id, data.title, image, data.location.address, data.basicPrice)
         saveOrDeleteFavorite(fav, ch)
     }
 
     private fun saveOrDeleteFavorite(fav: Favorite, ch: CheckBox){
-        if (dao.getById(fav.id, userId).isEmpty()){
+        if (dao.getById(fav.idProperty, userId).isEmpty()){
             dao.insert(fav)
             ch.isChecked = true
             Toast.makeText(applicationContext, "Berhasil menambah favorit!", Toast.LENGTH_SHORT).show()

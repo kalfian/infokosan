@@ -18,6 +18,6 @@ interface FavoriteDao {
     @Query("SELECT * FROM favorite WHERE user_id = :userId")
     fun getAll(userId: Int) : List<Favorite>
 
-    @Query("SELECT * FROM favorite WHERE id = :id AND user_id = :userId")
+    @Query("SELECT * FROM favorite WHERE id_property = :id AND user_id = :userId")
     fun getById(id: Int, userId: Int) : List<Favorite>
 }

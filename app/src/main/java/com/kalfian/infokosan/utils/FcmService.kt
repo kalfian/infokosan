@@ -7,11 +7,14 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.kalfian.infokosan.R
+import com.kalfian.infokosan.modules.auth.LoginActivity
 import com.kalfian.infokosan.modules.home.HomeActivity
 
 class FcmService: FirebaseMessagingService() {
@@ -25,13 +28,15 @@ class FcmService: FirebaseMessagingService() {
         if (remoteMessage.data.isNotEmpty()) {
             val msg: String = remoteMessage.data["message"].toString()
             Log.d("NotificationTest", msg)
-            sendNotification(msg)
+            sendNotification(msg, "Infokosan")
         }
 
-        sendNotification(remoteMessage.notification?.body)
+        Handler(Looper.getMainLooper()).postDelayed({
+            sendNotification(remoteMessage.notification?.title, remoteMessage.notification?.body)
+        }, 3000)
     }
 
-    private fun sendNotification(messageBody: String?) {
+    private fun sendNotification(title: String?, messageBody: String?) {
         val intent = Intent(this, HomeActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
@@ -39,7 +44,7 @@ class FcmService: FirebaseMessagingService() {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_xl)
-            .setContentTitle("Title")
+            .setContentTitle(title)
             .setContentText(messageBody)
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
@@ -47,7 +52,7 @@ class FcmService: FirebaseMessagingService() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, "Channel human readable title", NotificationManager.IMPORTANCE_HIGH)
+            val channel = NotificationChannel(channelId, title, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(channel)
         }
         notificationManager.notify(0, notificationBuilder.build())

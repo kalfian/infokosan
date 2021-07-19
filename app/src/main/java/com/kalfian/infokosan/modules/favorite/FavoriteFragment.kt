@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -20,7 +19,6 @@ import com.kalfian.infokosan.modules.property.DetailPropertyActivity
 import com.kalfian.infokosan.utils.Constant
 import com.kalfian.infokosan.utils.db.FavoriteDB
 import com.kalfian.infokosan.utils.db.FavoriteDao
-import okhttp3.internal.notifyAll
 import kotlin.let as let1
 
 class FavoriteFragment : Fragment(R.layout.fragment_favorite), SwipeRefreshLayout.OnRefreshListener,
@@ -109,7 +107,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), SwipeRefreshLayou
 
     override fun onFavoriteClickListener(data: Favorite) {
         val intent = Intent(context, DetailPropertyActivity::class.java)
-        intent.putExtra(Constant.DETAIL_PROPERTY_INTENT, data.id)
+        intent.putExtra(Constant.DETAIL_PROPERTY_INTENT, data.idProperty)
         startActivity(intent)
     }
 

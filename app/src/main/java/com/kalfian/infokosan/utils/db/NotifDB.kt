@@ -7,19 +7,19 @@ import androidx.room.RoomDatabase
 import com.kalfian.infokosan.models.favorite.Favorite
 
 //Database annotation to specify the entities and set version
-@Database(entities = [Favorite::class], version = 3, exportSchema = false)
-abstract class FavoriteDB : RoomDatabase() {
+@Database(entities = [Favorite::class], version = 2, exportSchema = false)
+abstract class NotifDB : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: FavoriteDB? = null
+        private var INSTANCE: NotifDB? = null
 
-        fun getDatabase(context: Context): FavoriteDB {
+        fun getDatabase(context: Context): NotifDB {
             return INSTANCE ?: synchronized(this) {
                 // Create database here
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    FavoriteDB::class.java,
+                    NotifDB::class.java,
                     "favorite_db"
                 )
                     .allowMainThreadQueries() //allows Room to executing task in main thread
@@ -32,5 +32,5 @@ abstract class FavoriteDB : RoomDatabase() {
         }
     }
 
-    abstract fun getFavoriteDao() : FavoriteDao
+    abstract fun getNotifDao() : FavoriteDao
 }

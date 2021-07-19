@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.kalfian.infokosan.R
 import com.kalfian.infokosan.databinding.FragmentAccountBinding
 import com.kalfian.infokosan.modules.auth.LoginActivity
+import com.kalfian.infokosan.modules.home.HomeActivity
 import com.kalfian.infokosan.utils.Constant
 import com.kalfian.infokosan.utils.customDialog
 
@@ -52,6 +53,11 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                 startActivity(intent)
                 requireActivity().finish()
             }
+        }
+
+        b.btnInfo.setOnClickListener{
+            val intent = Intent(context, AboutActivity::class.java)
+            startActivity(intent)
         }
     }
 }

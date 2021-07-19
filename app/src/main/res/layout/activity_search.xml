@@ -42,7 +42,7 @@
             android:imeOptions="actionSearch"
             android:hint="@string/search_kos"
             android:inputType="text"
-            android:paddingLeft="8dp" />
+            android:paddingStart="8dp" />
     </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

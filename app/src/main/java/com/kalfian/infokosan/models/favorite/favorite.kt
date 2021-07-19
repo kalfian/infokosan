@@ -10,7 +10,8 @@ import kotlinx.android.parcel.Parcelize
 //Parcelable annotation to make parcelable object
 @Parcelize
 data class Favorite(
-    @PrimaryKey(autoGenerate = false)@ColumnInfo(name = "id") var id: Int = 0,
+    @PrimaryKey(autoGenerate = true)@ColumnInfo(name = "id") var id: Int = 0,
+    @ColumnInfo(name = "id_property") var idProperty: Int = 0,
     @ColumnInfo(name = "title") var title: String = "",
     @ColumnInfo(name = "image") var image: String = "",
     @ColumnInfo(name = "alamat") var alamat: String = "",
